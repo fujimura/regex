@@ -527,7 +527,8 @@ fixpoint :: (Eq a) => (a->a) -> a -> a
 fixpoint f = chk . iterate f
   where
     chk (x:x':_) | x==x' = x
-    chk xs               = chk $ tail xs
+    chk (_:xs)           = chk xs
+    chk []               = error "This won't happen"
 \end{code}
 
 \begin{code}
