@@ -5,33 +5,26 @@ on:
 
 jobs:
   stack:
-    name: stack / ghc ${{ matrix.ghc }} / ${{ matrix.platform }}
+    name: ghc ${{ matrix.ghc }} / ${{ matrix.platform }}
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
       matrix:
-        stack: ["2.3.1"]
-        ghc: ['8.6.5', '8.8.4', '8.10.2']
+        ghc: ['9.4.8', '9.6.5', '9.8.2']
         platform: [ubuntu-latest, windows-latest]
 
     steps:
     - uses: haskell-actions/setup@v2
-      name: Setup Haskell Stack
+      name: Setup Haskell
       with:
         ghc-version: ${{ matrix.ghc }}
-        enable-stack: true
         stack-version: ${{ matrix.stack }}
 
-    - uses: actions/cache@v3.0.7
-      name: Cache ~/.stack
-      with:
-        path: ~/.stack
-        key: ${{ runner.os }}-${{ matrix.ghc }}-stack
+    - uses: actions/checkout@v4
+      name: Clone project
 
     - name: Build
-      run: |
-        stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks --stack-yaml stack-${{ matrix.ghc }}.yaml
+      run: cabal build
 
     - name: Test
-      run: |
-        stack test --system-ghc --stack-yaml stack-${{ matrix.ghc }}.yaml
+      run: cabal test
