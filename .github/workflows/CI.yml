@@ -18,7 +18,7 @@ jobs:
         platform: [ubuntu-latest, windows-latest]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.ref == 'refs/heads/master'
 
     - uses: haskell/actions/setup@v2
