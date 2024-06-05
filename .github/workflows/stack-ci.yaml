@@ -2,12 +2,7 @@ name: Tests
 on:
   pull_request:
   push:
-    branches:
-      - master
   workflow_dispatch:
-    branches:
-      - support-ghc-9.2
-      - master
 
 jobs:
   build:
